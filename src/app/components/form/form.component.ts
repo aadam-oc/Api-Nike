@@ -15,12 +15,13 @@ export class FormComponent {
 
   imagenUrl: string = '';
   imagenSeleccionada: boolean = false;
+  existe: boolean = false;
 
   constructor(private apiRestService: ApiRestService) { }
 
   FormularioProducto = new FormGroup({
     Referencia: new FormControl('', [Validators.required, Validators.min(1), Validators.max(100)]),
-    Nombre: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]),
+    Nombre: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
     Precio: new FormControl('', [Validators.required, Validators.min(0)]),
     Descripcion: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(300)]),
     TipoProducto: new FormControl('', [Validators.required]),
@@ -30,13 +31,34 @@ export class FormComponent {
   onFileSelected(event: any): void {
     const file: File = event.target.files[0];
 
-    if (file) { 
-      this.imagenSeleccionada = true; 
+    if (file) {
+      this.imagenSeleccionada = true;
 
       this.apiRestService.subirImagen(file).subscribe(response => {
-        this.imagenUrl = response.imageUrl; 
-        this.imagenSeleccionada = false; 
+        this.imagenUrl = response.imageUrl;
+        this.imagenSeleccionada = false;
       });
+    }
+  }
+
+  ExisteProducto(): void {
+
+    const existe = this.apiRestService.productoExistente(this.FormularioProducto.value.Referencia as string);
+    if (existe) {
+      this.existe = true;
+      const producto = this.apiRestService.getProductoReferencia(this.FormularioProducto.value.Referencia as string);
+      this.FormularioProducto.patchValue({
+        Referencia: producto.Nombre,
+        Nombre: producto.Nombre,
+        Precio: producto.Precio,
+        Descripcion: producto.Descripcion,
+        TipoProducto: producto.TipoProducto,
+        EnOferta: producto.EnOferta
+      });
+      
+    }
+    else {
+      this.existe = false;
     }
   }
 

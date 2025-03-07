@@ -1,13 +1,13 @@
-<div class="product-container">
-  <div class="product-card" *ngFor="let producto of productos">
-    <!-- Mostrar la imagen del producto -->
-    <img class="product-image" [src]="producto.imagen" alt="{{ producto.Nombre }}">
+<div class="product-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
+    <div class="product-card bg-white shadow-md rounded-lg overflow-hidden" *ngFor="let producto of productos">
+        <!-- Mostrar la imagen del producto -->
+        <img class="product-image w-full h-48 object-cover" [src]="producto.imagen" alt="{{ producto.Nombre }}">
 
-    <div class="product-info">
-      <p class="product-title">{{ producto.Nombre }}</p>
-      <p class="product-description">{{ producto.Descripcion }}</p>
-      <p class="product-price">{{ producto.Precio }} €</p>
+        <div class="product-info p-4">
+            <p class="product-title text-lg font-semibold">{{ producto.Nombre }}</p>
+            <p class="product-description text-gray-600">{{ producto.Descripcion }}</p>
+            <p class="product-price text-xl font-bold text-black">{{ producto.Precio }} €</p>
+            <p *ngIf="producto.EnOferta" class="product-offer text-green-500">En oferta</p>
+        </div>
     </div>
-
-  </div>
 </div>

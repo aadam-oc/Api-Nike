@@ -30,4 +30,12 @@ export class ApiRestService {
     this.productos.push(producto);
     alert('Producto añadido correctamente: ' + producto.Referencia + ' ' + producto.Nombre);
   }
+
+  productoExistente(referencia: string): boolean {
+    return this.productos.some(producto => producto.Referencia === referencia);
+  }
+
+  getProductoReferencia(referencia: string): any {
+    return this.productos.find(producto => producto.Referencia === referencia);
+  }
 }
