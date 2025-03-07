@@ -1,0 +1,50 @@
+<form [formGroup]="FormularioProducto" (ngSubmit)="onSubmit()">
+    <!--Referencia-->
+    <label for="Referencia">referencia</label>
+    <input type="number" id="Referencia" formControlName="Referencia" placeholder>
+    <div *ngIf="FormularioProducto.get('Referencia')?.invalid && FormularioProducto.get('Referencia')?.touched" class="text-danger">
+        <span *ngIf="FormularioProducto.get('Referencia')?.errors?.['required']">Este campo es obligatorio.</span>
+        <span *ngIf="FormularioProducto.get('Referencia')?.errors?.['min']">El número debe ser mayor a 0.</span>
+        <span *ngIf="FormularioProducto.get('Referencia')?.errors?.['max']">Número demasiado alto.</span>
+      </div>
+    <!--Nombre-->
+    <label for="Nombre">nombre</label>
+    <input type="text" id="Nombre" formControlName="Nombre" placeholder>
+    <div *ngIf="FormularioProducto.get('Nombre')?.invalid && FormularioProducto.get('Nombre')?.touched" class="text-danger">
+        <span *ngIf="FormularioProducto.get('Nombre')?.errors?.['required']">Este campo es obligatorio.</span>
+        <span *ngIf="FormularioProducto.get('Nombre')?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</span>
+        <span *ngIf="FormularioProducto.get('Nombre')?.errors?.['maxlength']">El nombre es demasiado largo.</span>
+      </div>
+    <!--Precio-->
+    <label for="Precio">Precio</label>
+    <input type="number" id="Precio" formControlName="Precio" placeholder>
+    <div *ngIf="FormularioProducto.get('Precio')?.invalid && FormularioProducto.get('Precio')?.touched" class="text-danger">
+        <span *ngIf="FormularioProducto.get('Precio')?.errors?.['required']">Este campo es obligatorio.</span>
+        <span *ngIf="FormularioProducto.get('Precio')?.errors?.['min']">El precio debe ser mayor a 0.</span>
+        <span *ngIf="FormularioProducto.get('Precio')?.errors?.['max']">Precio demasiado alto.</span>
+      </div>
+    <!--Descripcion-->
+    <label for="Descripcion">Descripcion</label>
+    <input type="text" formControlName="Descripcion" placeholder>
+    <!--TipoProducto-->
+    <label for="TipoProducto">Tipo de producto</label>
+    <select formControlName="TipoProducto">
+        <option value="Zapatos">Zapatos</option>
+        <option value="Camisetas">Camisetas</option>
+        <option value="Pantalones">Pantalones</option>
+    </select>
+    <!--EnOferta-->
+    <label for="EnOferta">En oferta</label>
+    <input type="checkbox" formControlName="EnOferta">
+    <!--Imagen-->
+    <div class="form-group">
+        <label for="imagen">Imagen</label>
+        <input type="file" class="form-control" id="imagen" (change)="onFileSelected($event)">
+        <div *ngIf="!imagenUrl && imagenSeleccionada" class="text-danger">
+          Subiendo imagen, por favor espera...
+        </div>
+        <img *ngIf="imagenUrl" [src]="imagenUrl" alt="Vista previa" width="150">
+      </div>
+
+    <button type="submit" [disabled]="FormularioProducto.invalid">Submit</button>
+</form>
